@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PX to VW / VH</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <center>
+        <div class="content">
+            <h1>PX to VW / VH</h1>
+            <table>
+                <tbody>
+                    <tr>
+                        <td><code>vw</code></td>
+                        <td>1% of the viewport's width.</td>
+                    </tr>
+                    <tr>
+                        <td><code>vh</code></td>
+                        <td>1% of the viewport's height.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <form>
+                Select your requirement here<br>
+                <input type="radio" name="unit" id="vw">px --> vw<br>
+                <input type="radio" name="unit" id="vh">px --> vh<br>
+            </form> <br>
+            <input type="text" name="t" id="t1">
+            <button id="b1">Calculate</button>
+            <br><br>
+            <div id="d2" class="cd"></div>
+        </div>
+    </center>
+
+    <script type="module">
+        import devtools from './devtools-detect.js';
+
+        // Check if it's open
+        console.log('Is DevTools open:', devtools.isOpen);
+
+        // Check it's orientation, `undefined` if not open
+        console.log('DevTools orientation:', devtools.orientation);
+
+        // Get notified when it's opened/closed or orientation changes
+        window.addEventListener('devtoolschange', event => {
+            console.log('Is DevTools open:', event.detail.isOpen);
+            console.log('DevTools orientation:', event.detail.orientation);
+        });
+
+        document.querySelector('#b1').onclick = function () {
+            if (devtools.isOpen) {
+                document.querySelector('#d2').innerHTML = 'Please close the DevTool & Try Again';
+            }
+            else {
+                if (!(screen.availWidth > window.innerWidth || screen.availHeight - 110 > window.innerHeight)) {
+                    var n = document.querySelector('#t1').value;
+                    var nx = '';
+                    console.log(n);
+                    if (document.getElementById("vw").checked) {
+                        nx = 100 / screen.availWidth;
+                    } else if (document.getElementById("vh").checked) {
+                        nx = 100 / window.innerHeight;
+                    } else {
+                        document.querySelector('#d2').innerHTML = 'Please Select You Want';
+                    }
+                    if (!(nx == 0)) document.querySelector('#d2').innerHTML = n * nx;
+                } else {
+                    document.querySelector('#d2').innerHTML = 'Please use FullScreen for Browser & Try Again';
+                }
+            }
+        }
+    </script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
